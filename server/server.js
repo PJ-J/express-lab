@@ -18,11 +18,12 @@ app.post('/formsubmissions', (req, res, next) => {
   let arr = [];
   arr.push(req.body.name);
   fs.appendFileSync(namePath, JSON.stringify(arr));
+  let names = fs.readFileSync(namePath, {encoding: "utf-8"});
   res.send(names);
   next();
 })
 
-let names = fs.readFileSync(namePath, {encoding: "utf-8"});
+
 // console.log(names);
 
 // app.get('/formsubmissions', (req, res) => {
