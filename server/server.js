@@ -9,7 +9,10 @@ app.use(bodyParser.urlencoded({ extended: false}));
 
 let namePath = path.join(__dirname, '../formsubmissions.json')
 
-
+app.use((req, res, next) => {
+  console.log(req.originalUrl);
+  next();
+})
 
 app.post('/formsubmissions', (req, res, next) => {
   let arr = [];
@@ -22,20 +25,17 @@ app.post('/formsubmissions', (req, res, next) => {
 let names = fs.readFileSync(namePath, {encoding: "utf-8"});
 // console.log(names);
 
-app.get('/formsubmissions', (req, res) => {
+// app.get('/formsubmissions', (req, res) => {
   
-  res.send(names);
+//   res.send(names);
   
-});
+// });
 
 app.use(express.static(path.join(__dirname, '../public')));
 
 
 
-app.use((req, res, next) => {
-  console.log(req.originalUrl);
-  next();
-})
+
 
 
 
