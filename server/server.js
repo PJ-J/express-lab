@@ -6,39 +6,32 @@ let app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-let namePath = path.join(__dirname, "../formsubmissions.json");
-
 app.use((req, res, next) => {
   console.log(req.originalUrl);
   next();
 });
 
-app.post("/formsubmissions", (req, res, next) => {
-  let arr = [];
-  arr.push(req.body.name);
-  fs.appendFileSync(namePath, JSON.stringify(arr));
-  let names = fs.readFileSync(namePath, { encoding: "utf-8" });
-  res.send(names);
-  next();
-});
-
-// console.log(names);
-
-// app.get('/formsubmissions', (req, res) => {
-
-//   res.send(names);
-
-// });
-
-app.use(express.static(path.join(__dirname, "../public")));
+//below is the thing from step 3 in the required section, just commented it out so I could do the other stuff after
 
 // app.get('/', (req, res) => {
 //   res.send('Hello from the web server side...');
-//   res.sendFile(path.join(__dirname, '../public/index.html'))
-// });
+//  });
 
-// app.get('/css/styles.css', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../public/css/styles.css'));
-// })
+app.use(express.static(path.join(__dirname, "../public")));
+
+let namePath = path.join(__dirname, "../formsubmissions.json");
+
+app.post("/formsubmissions", (req, res, next) => {
+  let formArr = [];
+  let formObj = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+  formArr.push(formObj);
+  fs.appendFileSync(namePath, JSON.stringify(formArr));
+  let submissions = fs.readFileSync(namePath, { encoding: "utf-8" });
+  res.send(submissions);
+  next();
+});
 
 app.listen(3000);
