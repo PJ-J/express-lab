@@ -2,7 +2,8 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const bodyParser = require("body-parser");
-let app = express();
+const { info } = require("console");
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -28,6 +29,8 @@ app.post("/formsubmissions", (req, res, next) => {
     email: req.body.email,
   };
   formArr.push(formObj);
+  // from the walkthru
+  // just go to repo after
   fs.appendFileSync(namePath, JSON.stringify(formArr));
   let submissions = fs.readFileSync(namePath, { encoding: "utf-8" });
   res.send(submissions);
